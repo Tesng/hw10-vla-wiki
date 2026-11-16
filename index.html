@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VLA 是什麼？— LLM Wiki × 教學簡報</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+color:#1f2933;background:#f7f8fa;line-height:1.7}
+a{color:#2a7f74}header{background:#0f1419;color:#e8edf2;padding:28px 6vw}header h1{margin:0;font-size:28px}
+header p{margin:.4em 0 0;color:#93a1b0}nav.top{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px}nav.top a{color:#4fb3a9;text-decoration:none}
+main{max-width:1080px;margin:0 auto;padding:28px 6vw 80px}.wrap{display:grid;grid-template-columns:230px 1fr;gap:32px;max-width:1200px;margin:0 auto;padding:28px 4vw}
+aside.side{position:sticky;top:16px;align-self:start;font-size:14px}aside.side h4{margin:1.2em 0 .3em;color:#52606d}aside.side a{display:block;text-decoration:none;padding:2px 0}
+aside.side a.on{font-weight:700}h1,h2,h3{line-height:1.3}h2{margin-top:2em;border-bottom:2px solid #e4e7eb;padding-bottom:.3em}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:1em 0;background:#fff}th,td{border:1px solid #e4e7eb;padding:6px 10px;text-align:left;vertical-align:top}
+th{background:#f0f4f8}code{background:#eef1f4;padding:1px 5px;border-radius:4px;font-size:.92em}pre{background:#0f1419;color:#e8edf2;padding:14px;border-radius:8px;overflow:auto}
+pre code{background:none;color:inherit}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:18px 0}
+.card{background:#fff;border:1px solid #e4e7eb;border-radius:12px;padding:16px;text-decoration:none;color:inherit}.card b{display:block;font-size:17px;color:#2a7f74}
+.card span{font-size:14px;color:#52606d}.chip{font-size:11px;border:1px solid #cbd2d9;border-radius:5px;padding:0 5px;margin-left:3px;text-decoration:none;color:#52606d;white-space:nowrap}
+.inf{font-size:11px;color:#c56a15;border:1px solid #e0893a;border-radius:5px;padding:0 5px}.warn{background:#fff7e6;border-left:3px solid #e0893a;padding:2px 8px}
+.meta{color:#52606d;font-size:14px}figure{margin:1em 0;background:#fff;border:1px solid #e4e7eb;border-radius:12px;padding:10px}figure svg{width:100%;height:auto}
+blockquote{border-left:3px solid #cbd2d9;margin:1em 0;padding:.2em 1em;color:#52606d}
+</style></head><body><header><h1>VLA 是什麼？— LLM Wiki × 教學簡報</h1><p>HW10｜用 LLM Wiki 做教學 HTML 簡報 — VLA 模型入門</p><nav class="top"><a href="index.html">首頁（繳交內容）</a><a href="wiki/index.html">LLM Wiki</a><a href="slides.html">教學簡報</a><a href="runs.html">執行與檢查紀錄</a></nav></header><main><h1>VLA 是什麼？— 用 LLM Wiki 做教學 HTML 簡報</h1>
+<blockquote>HW10｜曾柏凱（清大 電機所）｜主題：Vision-Language-Action（VLA）模型入門</blockquote>
+<div class="cards"><a class="card" href="wiki/index.html"><b>📚 LLM Wiki</b><span>15+ 頁概念與論文摘要，每句附出處</span></a><a class="card" href="slides.html"><b>🎞 教學 HTML 簡報</b><span>←/→ 換頁、N 看講者備註、quiz 可作答</span></a><a class="card" href="runs.html"><b>🧪 執行與檢查紀錄</b><span>v1→v5 的 trace 與檢查報告</span></a><a class="card" href="hw10-source.zip"><b>📦 原始碼與紀錄</b><span>graph、Wiki、raw、所有 runs（zip）</span></a></div>
+<h2 id="sec1">1. LLM Wiki 主題與簡短介紹</h2>
+<p><b>主題：VLA（Vision-Language-Action）模型</b>，也就是讓大型模型看影像、讀指令，直接輸出機器人動作。這是我的研究方向（VLA / VLM），所以這個 Wiki 之後也會繼續用。</p>
+<ul><li><b>讀者</b>：修過 ML、懂 Transformer / LLM，但沒碰過機器人的同學</li><li><b>收錄 7 篇論文</b>：RT-1 → RT-2 → Open X-Embodiment → Octo → OpenVLA → π0 → FAST（2022–2025）</li><li><b>建法</b>：照 Karpathy 的 LLM Wiki 模式分三層：<code>raw/</code>（原始資料，只讀）→ <code>wiki/</code>（LLM 維護）→ <code>AGENTS.md</code>（schema）</li><li><b>先討論、後生成</b>：我先和 AI 討論 8 個問題（讀者、頁面類型、語言、出處粒度、矛盾處理、ingest 方式、要產出什麼、lint 檢查什麼），確認後才建檔。每個決定都寫在 <a href="wiki/schema.html">需求摘要</a>，也一條條對應到 AGENTS.md。</li></ul>
+<h2 id="sec2">2. LLM Wiki 連結與成果</h2>
+<p>🔗 <b>Wiki 瀏覽頁：<a href="wiki/index.html">wiki/index.html</a></b>（GitHub repo 裡是原始 markdown，用 git 管理）</p>
+<table><tr><th>類型</th><th>頁面</th></tr><tr><td>導覽</td><td><a href="wiki/index.html">index</a>（目錄）、<a href="wiki/log.html">log</a>（append-only 變更紀錄）</td></tr><tr><td>概念頁 ×7</td><td><a href="wiki/vla.html">vla</a>、<a href="wiki/action-representation.html">action-representation</a>、<a href="wiki/co-fine-tuning.html">co-fine-tuning</a>、<a href="wiki/cross-embodiment.html">cross-embodiment</a>、<a href="wiki/action-chunking.html">action-chunking</a>、<a href="wiki/continuous-action-heads.html">continuous-action-heads</a>、<a href="wiki/vla-timeline.html">vla-timeline</a></td></tr><tr><td>論文頁 ×7</td><td><a href="wiki/rt1.html">rt1</a>、<a href="wiki/rt2.html">rt2</a>、<a href="wiki/oxe.html">oxe</a>、<a href="wiki/octo.html">octo</a>、<a href="wiki/openvla.html">openvla</a>、<a href="wiki/pi0.html">pi0</a>、<a href="wiki/fast.html">fast</a></td></tr></table>
+<p><b>建 Wiki 時特別考量的幾件事</b></p>
+<ol><li><b>出處要細到「每一句」</b>：每條 bullet 都標 <code>[[src:論文]]</code>；沒有論文支持的句子要標「推論」，而且推論句裡不能有數字。這樣後面做簡報時，才能分辨哪些是事實、哪些是推論。</li><li><b>數字一定要在原文找得到</b>：lint 會把每個數字拿去 raw/ 原文比對。</li><li><b>矛盾不刪掉，兩邊都留</b>：例如 π0 用連續 flow matching 做 50 Hz 靈巧任務，FAST 卻顯示離散 token 也能追平，Wiki 會寫成「⚠ 矛盾」把兩邊並列，再另外寫一行推論說明可能的原因（見 <a href="wiki/action-representation.html">action-representation</a>）。</li><li><b>一次 ingest 一篇，每篇一個 git commit</b>：前 6 篇是在建 git 之前整批 ingest 的；討論後改成逐篇，第 7 篇 FAST 就是照這個流程進來的（<code>git log</code> 可以看到 <code>ingest: fast</code>）。</li><li><b>lint 是一支可以執行的腳本</b>：<code>python3 pipeline/lint.py</code> 會檢查斷鏈、孤兒頁、index 缺頁、句子沒有出處、數字在出處找不到、推論句含數字、frontmatter 少列來源、矛盾句來源少於 2 個。第一次 lint 抓到 9 個問題，其中 8 個其實是 lint 規則自己的誤判，所以我也修了 lint（見<a href="runs.html">執行紀錄</a>）。</li></ol>
+<h2 id="sec3">3. 教學 HTML 簡報</h2>
+<p>🔗 <b>簡報：<a href="slides.html">slides.html</a></b>（← → 換頁、N 顯示講者備註、小測驗可以點選作答）。這份是 graph 最後一次執行（run v5）的成品：寫稿 Groq <code>openai/gpt-oss-120b</code>，審查 Groq <code>qwen/qwen3.8-27b</code>，經過 2 道人工關卡。</p>
+<p>教學設計：</p>
+<ul><li><b>5 個學習目標</b>（每頁左上角都標出這頁對應哪個目標）：O1 VLA 的定義、O2 動作怎麼變成輸出、O3 資料從哪來、O4 為什麼需要 action chunking、O5 代表模型的演進與比較</li><li><b>從觀眾熟悉的東西開始</b>：LLM → VLM → VLA，再進到「動作怎麼表示」「資料」「速度」三個設計問題，最後用時間線和比較表收尾</li><li><b>名詞小卡</b>：policy、embodiment、DoF、flow matching 等 11 個術語，第一次出現的那頁一定有白話解釋（程式檢查）</li><li><b>小測驗 ×1、總結 ×1、未來挑戰 ×1</b></li><li><b>每句都有出處標籤</b>：滑鼠移上去可以看 Wiki 原句；實心點是論文事實、空心橘點是推論、橘字是比喻；最後一頁列出論文連結</li></ul>
+<p><b>Wiki 與簡報的對應</b>（每頁引用的 Wiki 頁；點進去可以看到原句）：</p>
+<table><tr><th>頁</th><th>類型</th><th>目標</th><th>標題</th><th>引用的 Wiki claim</th></tr><tr><td>s01</td><td>title</td><td>—</td><td>VLA（Vision‑Language‑Action）模型概覽</td><td>—</td></tr><tr><td>s02</td><td>content</td><td>O1</td><td>VLA 定義與 LLM / VLM 的關係</td><td><a href="wiki/vla.html">vla</a></td></tr><tr><td>s03</td><td>content</td><td>O2</td><td>離散 token 與連續動作的表徵方式</td><td><a href="wiki/action-representation.html">action-representation</a></td></tr><tr><td>s04</td><td>compare</td><td>O2</td><td>離散 vs 連續：效能與頻率比較</td><td><a href="wiki/action-representation.html">action-representation</a></td></tr><tr><td>s05</td><td>content</td><td>O3</td><td>資料來源：跨機體資料與 co‑fine‑tuning</td><td><a href="wiki/co-fine-tuning.html">co-fine-tuning</a>、<a href="wiki/cross-embodiment.html">cross-embodiment</a></td></tr><tr><td>s06</td><td>content</td><td>O4</td><td>Action Chunking：提升控制頻率的關鍵</td><td><a href="wiki/action-chunking.html">action-chunking</a></td></tr><tr><td>s07</td><td>compare</td><td>O4</td><td>Octo Diffusion vs π0 Flow Matching</td><td><a href="wiki/action-representation.html">action-representation</a>、<a href="wiki/continuous-action-heads.html">continuous-action-heads</a></td></tr><tr><td>s08</td><td>timeline</td><td>O5</td><td>從 RT‑1 到 π0 的演進路線</td><td><a href="wiki/vla-timeline.html">vla-timeline</a></td></tr><tr><td>s09</td><td>compare</td><td>O5</td><td>RT‑1 → RT‑2 → OpenVLA → π0：關鍵差異</td><td><a href="wiki/openvla.html">openvla</a>、<a href="wiki/pi0.html">pi0</a>、<a href="wiki/rt2.html">rt2</a>、<a href="wiki/vla-timeline.html">vla-timeline</a></td></tr><tr><td>s10</td><td>quiz</td><td>—</td><td>小測驗：檢測概念掌握</td><td><a href="wiki/action-chunking.html">action-chunking</a>、<a href="wiki/co-fine-tuning.html">co-fine-tuning</a>、<a href="wiki/vla.html">vla</a></td></tr><tr><td>s11</td><td>summary</td><td>—</td><td>總結與未來展望</td><td><a href="wiki/openvla.html">openvla</a>、<a href="wiki/vla-timeline.html">vla-timeline</a></td></tr><tr><td>s12</td><td>flow</td><td>—</td><td>未來挑戰與研究方向</td><td><a href="wiki/fast.html">fast</a></td></tr><tr><td>—</td><td>資料來源</td><td>—</td><td>自動產生：每篇論文 → 用到的 Wiki 頁</td><td>—</td></tr></table>
+<h2 id="sec4">4. loop / graph 設計</h2>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 580" font-family="-apple-system,'PingFang TC','Noto Sans TC',sans-serif" font-size="13">
+<defs>
+ <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#7f8b99"/></marker>
+ <marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#e0893a"/></marker>
+ <style>
+  .p rect{fill:#e8f4f2;stroke:#3d9b8f}.ai rect{fill:#ece9fb;stroke:#6b5bd2}.hu rect{fill:#fdf1dc;stroke:#c98a1b}.ck rect{fill:#fde8e8;stroke:#c94a4a}
+  rect{stroke-width:1.6;rx:10}
+  .t{font-weight:600;fill:#1f2933;text-anchor:middle}.s{fill:#52606d;text-anchor:middle;font-size:11px}
+  .e{stroke:#7f8b99;stroke-width:1.6;fill:none;marker-end:url(#a)}
+  .b{stroke:#e0893a;stroke-width:1.6;fill:none;marker-end:url(#o)}.bd{stroke-dasharray:6 4}
+  .bl{fill:#c56a15;font-size:11px}.st{fill:#c94a4a;font-size:11px;text-anchor:middle}
+ </style>
+</defs>
+<text x="20" y="22" font-size="15" font-weight="700" fill="#1f2933">graph（最終版）：每個節點的輸入／輸出都是檔案（runs/&lt;id&gt;/），橘色＝退回路線</text>
+<!-- row 1 -->
+<g class="p"><rect rx="10" x="20" y="80" width="120" height="54"/><text class="t" x="80" y="104">load_wiki</text><text class="s" x="80" y="121">取得資料</text></g>
+<g class="ck"><rect rx="10" x="170" y="80" width="120" height="54"/><text class="t" x="230" y="104">lint_wiki</text><text class="s" x="230" y="121">Wiki 健康檢查</text></g>
+<g class="ck"><rect rx="10" x="320" y="80" width="120" height="54"/><text class="t" x="380" y="104">query_wiki</text><text class="s" x="380" y="121">檢索＋覆蓋率關卡</text></g>
+<g class="p"><rect rx="10" x="470" y="80" width="120" height="54"/><text class="t" x="530" y="104">evidence_cards</text><text class="s" x="530" y="121">證據卡（依論文）</text></g>
+<g class="ai"><rect rx="10" x="620" y="80" width="120" height="54"/><text class="t" x="680" y="104">outline</text><text class="s" x="680" y="121">AI 整理大綱</text></g>
+<g class="ck"><rect rx="10" x="770" y="80" width="120" height="54"/><text class="t" x="830" y="104">check_outline</text><text class="s" x="830" y="121">程式檢查</text></g>
+<g class="hu"><rect rx="10" x="920" y="80" width="140" height="54"/><text class="t" x="990" y="104">human_gate</text><text class="s" x="990" y="121">人工確認大綱</text></g>
+<path class="e" d="M140 107H168"/><path class="e" d="M290 107H318"/><path class="e" d="M440 107H468"/><path class="e" d="M590 107H618"/><path class="e" d="M740 107H768"/><path class="e" d="M890 107H918"/>
+<text class="st" x="230" y="152">不過 → 停（先修 Wiki）</text>
+<text class="st" x="380" y="152">相關頁 &lt; 3 → 停</text>
+<!-- back edges row1 -->
+<path class="b" d="M370 80 C350 46, 410 46, 392 78"/><text class="bl" x="345" y="52">事實不足→擴大檢索 ≤2</text>
+<path class="b" d="M830 80 C830 56, 700 56, 700 78"/><text class="bl" x="790" y="152">有錯 → 修大綱 ≤2</text>
+<path class="b" d="M990 80 C990 34, 670 34, 670 78"/><text class="bl" x="770" y="36">寫修改意見 → 退回大綱</text>
+<!-- connector to row 2 -->
+<path class="e" d="M990 134V210H80V298"/><text x="540" y="204" fill="#52606d" font-size="11">y 通過</text>
+<!-- row 2 -->
+<g class="ai"><rect rx="10" x="20" y="300" width="140" height="62"/><text class="t" x="90" y="322">draft_pages</text><text class="s" x="90" y="338">逐頁稿（只看該頁證據卡）</text><text class="s" x="90" y="353">⟲ 寫→程式檢查→修 ≤2</text></g>
+<g class="ck"><rect rx="10" x="200" y="300" width="140" height="62"/><text class="t" x="270" y="322">ai_review</text><text class="s" x="270" y="338">AI 審查（另一個模型）</text><text class="s" x="270" y="353">新對話・只看成品＋來源</text></g>
+<g class="ck"><rect rx="10" x="380" y="300" width="140" height="62"/><text class="t" x="450" y="322">check_deck</text><text class="s" x="450" y="338">術語首次出現</text><text class="s" x="450" y="353">論文覆蓋率</text></g>
+<g class="p"><rect rx="10" x="560" y="300" width="130" height="62"/><text class="t" x="625" y="322">render_html</text><text class="s" x="625" y="338">模板渲染</text><text class="s" x="625" y="353">不改任何字</text></g>
+<g class="ck"><rect rx="10" x="730" y="300" width="140" height="62"/><text class="t" x="800" y="322">check_render</text><text class="s" x="800" y="338">Playwright 量溢出</text><text class="s" x="800" y="353">＋外部資源檢查</text></g>
+<g class="hu"><rect rx="10" x="910" y="300" width="150" height="62"/><text class="t" x="985" y="322">human_final</text><text class="s" x="985" y="338">人工驗收成品</text><text class="s" x="985" y="353">y 通過／指定頁退回</text></g>
+<g class="p"><rect rx="10" x="925" y="420" width="120" height="50"/><text class="t" x="985" y="441">finalize</text><text class="s" x="985" y="457">slides.html＋report.md</text></g>
+<path class="e" d="M985 362V418"/><text x="992" y="396" fill="#52606d" font-size="11">y</text>
+<path class="b" d="M915 360 C 870 540, 50 540, 50 364"/><text class="bl" x="380" y="530">人工：「s07: 意見」→ 只退回那幾頁（不設上限，由人決定）</text>
+<path class="b bd" d="M1050 300 C 1090 200, 1090 60, 742 100"/><text class="bl" x="1000" y="250">「outline: 意見」</text><text class="bl" x="1000" y="264">→ 退回大綱</text>
+<path class="e" d="M160 331H198"/><path class="e" d="M340 331H378"/><path class="e" d="M520 331H558"/><path class="e" d="M690 331H728"/><path class="e" d="M870 331H908"/>
+<!-- back edges row2 -->
+<path class="b" d="M270 362 C270 400, 110 400, 110 364"/><text class="bl" x="282" y="388">說法有誤 → 只退那一頁 ≤2</text>
+<path class="b" d="M450 362 C450 432, 90 432, 90 364"/><text class="bl" x="462" y="408">術語沒定義 → 退那一頁</text>
+<path class="b" d="M800 362 C800 470, 70 470, 70 364"/><text class="bl" x="812" y="420">溢出 → 退回逐頁稿縮短那一頁 ≤2</text>
+<path class="b bd" d="M450 300 C450 240, 700 230, 700 136"/><text class="bl" x="560" y="262">大圈：有論文沒用到 → 退回大綱（≤1）</text>
+<!-- legend -->
+<g font-size="11"><rect x="700" y="552" width="14" height="10" fill="#e8f4f2" stroke="#3d9b8f"/><text x="720" y="561">程式節點</text>
+<rect x="790" y="552" width="14" height="10" fill="#ece9fb" stroke="#6b5bd2"/><text x="810" y="561">AI 節點</text>
+<rect x="875" y="552" width="14" height="10" fill="#fde8e8" stroke="#c94a4a"/><text x="895" y="561">檢查關卡</text>
+<rect x="965" y="552" width="14" height="10" fill="#fdf1dc" stroke="#c98a1b"/><text x="985" y="561">人工確認</text></g>
+</svg>
+</figure>
+<p>流程是<b>事先畫好的 graph</b>（<code>pipeline/graph.py</code>，最終版）：誰在什麼時候做什麼，由程式決定，不是由 AI 決定。每個節點只做一件事，而且有明確的輸入與輸出檔案（<code>runs/&lt;id&gt;/sources.md → cards/ → outline.md → drafts/ → deck.html → report.md</code>）。AI 節點用 Groq：寫稿 <code>openai/gpt-oss-120b</code>，審查 <code>qwen/qwen3.8-27b</code>（不同模型家族，各自一份每分鐘額度）。</p>
+<p>對應作業的流程：<b>取得資料</b>（load_wiki、lint_wiki）→ <b>查詢 Wiki</b>（query_wiki、evidence_cards）→ <b>整理重點</b>（outline、人工確認）→ <b>檢查內容</b>（程式檢查、AI 審查）→ <b>產生簡報</b>（render_html、check_render）→ <b>人工驗收</b>（human_final）→ finalize。</p>
+<p><b>每一關只能看什麼、不能做什麼</b></p>
+<table><tr><th>節點</th><th>只能看</th><th>不能做（由程式擋下）</th></tr><tr><td>evidence_cards</td><td>Wiki 的 claim，依論文分卡</td><td>混入其他來源</td></tr><tr><td>outline（AI）</td><td>index + 證據卡</td><td>引用卡片裡沒有的 claim（<code>bad_cite</code>）</td></tr><tr><td>draft_pages（AI）</td><td>大綱中的這一頁 + 這一頁的證據卡</td><td>引用卡片以外的內容（<code>cite_outside_cards</code>）、改寫數字、把推論寫成事實</td></tr><tr><td>ai_review（另一個模型）</td><td>該頁成品 + 它引用的原句</td><td>自己改稿（只能回報問題）</td></tr><tr><td>render_html</td><td>已通過的逐頁稿</td><td>改任何一個字（固定模板）</td></tr><tr><td>human_final（人）</td><td>渲染後的成品 + 檢查報告</td><td>——（人決定退回哪幾頁，或退回大綱）</td></tr></table>
+<p><b>哪些步驟會重複執行？（都有硬上限）</b></p>
+<table><tr><th>迴圈</th><th>什麼時候轉</th><th>上限</th></tr><tr><td>query_wiki ⟲</td><td>某個學習目標的事實少於 2 條 → 擴大檢索</td><td>2 次，仍不足就停（不用自己的知識硬湊）</td></tr><tr><td>outline ⇄ check_outline</td><td>大綱的程式檢查沒過（張數、目標覆蓋、claim 不存在、術語先用後教）</td><td>2 次</td></tr><tr><td>human_gate → outline</td><td>我看了大綱，寫下修改意見</td><td>5 次</td></tr><tr><td>human_final → draft_pages／outline</td><td>我看了成品：「s07: 意見」只退回那幾頁；「outline: 意見」退回大綱</td><td>不設上限（人的決定）</td></tr><tr><td>逐頁稿頁內小圈</td><td>寫一頁 → 程式檢查 → 修</td><td>每頁 2 次</td></tr><tr><td>ai_review → draft_pages</td><td>審查發現說法講反、沒有證據支持、張冠李戴 → <b>只退回那一頁</b></td><td>每頁 2 次</td></tr><tr><td>check_render → draft_pages</td><td>渲染後溢出畫面 → 只退回那一頁、要求縮短</td><td>每頁 2 次</td></tr><tr><td>check_deck → outline（大圈）</td><td>有論文完全沒被用到 → 退回大綱補進去</td><td>1 次</td></tr></table>
+<p><b>哪些地方需要檢查或重新生成？</b> 會重新生成的只有 AI 節點（大綱、逐頁稿）。檢查分兩種：<b>程式檢查</b>負責出處、數字、字數、術語、溢出這類「可以用腳本判斷」的事；<b>AI 審查</b>負責「說法有沒有講反、有沒有忠於來源」這種程式判斷不了的事，而且審查用另一個模型、開新的對話，只給它成品和來源，<b>不讓它審自己的作品</b>。</p>
+<p><b>為什麼這樣設計？</b></p>
+<ul><li><b>錯誤要在離源頭最近的地方被抓到</b>：出處在 query 階段就拆成帶 id 的證據卡，術語順序在大綱階段就檢查，所以小圈轉得快、大圈很少轉。</li><li><b>錯在哪一頁就退回哪一頁</b>：v1 修一個錯要把 13 頁整份重送；v3 只重寫有問題的那一頁，其他頁不動。</li><li><b>「做完了」由腳本說了算</b>：完成標準是程式檢查全過、AI 審查 pass、渲染沒有溢出，而不是 AI 說「檢查過了」。</li><li><b>每一關的產出都是檔案</b>：可以打開來看、放進 git、單獨重跑；每次 LLM 呼叫的 prompt 和 response 都留著。</li></ul>
+<p><b>把這個 loop 的規格寫清楚（講義：一個 loop 要寫清楚五件事）</b></p>
+<ul><li>🎯 <b>目標</b>：只用 Wiki 的內容，產出能讓初學者理解 VLA 的 HTML 簡報（O1–O5）</li><li>🧱 <b>限制</b>：raw/ 不可改；只能引用證據卡；數字不可換算；推論要標出來</li><li>✅ <b>完成標準</b>：程式檢查全過 + AI 審查 pass + 渲染不溢出 + 10–14 頁內容頁</li><li>🛑 <b>停止條件</b>：見上表每個迴圈的上限；相關頁面少於 3 頁就一開始停下</li><li>⏰ <b>觸發</b>：每次 ingest 新論文後，手動執行 <code>python3 pipeline/graph.py --run &lt;id&gt; --llm groq</code></li></ul>
+<h2 id="sec5">5. 實際執行結果與檢查紀錄</h2>
+<p>完整紀錄：🔗 <a href="runs.html">runs.html</a>（每次執行的 trace、檢查報告、逐句比對）</p>
+<p>我總共實際跑了 5 個版本，每次都留下完整紀錄（<code>runs/v1</code> … <code>runs/v5</code>）。</p>
+<table><tr><th>版本</th><th>寫稿的 LLM</th><th>結果</th><th>關鍵數字</th></tr><tr><td>v1</td><td>Claude（agent 模式）</td><td>檢查全過，但<b>人工逐句比對</b>發現 4 句推論被寫成事實</td><td><code>check_slides</code> 擋下 1 個錯（術語先用後教），修 1 次通過</td></tr><tr><td>v2</td><td>Claude（agent 模式）</td><td>大綱檢查與內容檢查都一次通過</td><td>檢查改到 claim 層級；回放到 v1 草稿，抓到那 4 句 + 1 個數字改寫</td></tr><tr><td>v3 第 1 次</td><td>Groq gpt-oss-120b</td><td><b>在 draft_pages 當掉</b></td><td>模型把 bullets 輸出成字串，檢查器沒先驗格式 → <code>AttributeError</code></td></tr><tr><td>v3</td><td>Groq gpt-oss-120b／審查 gpt-oss-20b</td><td>完成，但 3 頁未解決</td><td>106 次呼叫、約 13 萬 tokens、約 36 分鐘；draft_pages 出錯 93 次，其中 71 次是檢查器誤報</td></tr><tr><td>v4</td><td>Groq gpt-oss-120b／審查 qwen3.8-27b</td><td>完成，1 頁未解決</td><td><b>68 次呼叫</b>、約 7.5 萬 tokens、約 10 分鐘；0 次數字誤報</td></tr><tr><td>v5（最終）</td><td>同 v4 ＋ 人工驗收關卡</td><td><b>完成</b>，12 頁全部通過；人工驗收實際退回 3 次（退回大綱 1 次、退回指定頁共 10 頁次）</td><td>152 次呼叫、約 20 萬 tokens；撞到 Groq 每日上限 1 次（隔天 --resume 接續）；graph 自身 bug 4 個</td></tr></table>
+<p>v3 → v4 的錯誤類型（同一批 49 份逐頁稿，分別用兩版檢查器檢查，<code>runs/v3_review/</code>）：</p>
+<table><tr><th>錯誤類型</th><th>v3 檢查器</th><th>v4 檢查器</th></tr><tr><td>ungrounded_number（數字找不到出處）</td><td>71</td><td><b>0</b>（全是誤報）</td></tr><tr><td>too_long</td><td>7</td><td>7</td></tr><tr><td>uncited</td><td>5</td><td>5</td></tr><tr><td>undefined_term</td><td>3</td><td>3</td></tr><tr><td>inference_as_fact</td><td>3</td><td>0（誤報）</td></tr><tr><td>schema（格式錯誤）</td><td>0</td><td>3（v3 沒檢查）</td></tr><tr><td>disguised_claim（假比喻）</td><td>0</td><td>2（v3 沒檢查）</td></tr></table>
+<p>判定不通過的稿子：v3 是 37/49 份，v4 是 16/49 份。</p>
+<p><b>v5（最終版）的檢查紀錄</b>（<code>runs/v5/report.md</code>）：</p>
+<table><tr><th>節點</th><th>錯誤類型</th><th>次數</th></tr><tr><td>draft_pages</td><td>inference_as_fact（推論寫成事實／表格引用推論）</td><td>19</td></tr><tr><td>ai_review</td><td>unsupported（證據不支持）</td><td>13</td></tr><tr><td>ai_review</td><td>table_mismatch（表格欄位錯置）</td><td>11</td></tr><tr><td>draft_pages</td><td>too_long</td><td>9</td></tr><tr><td>draft_pages</td><td>ungrounded_number／uncited／disguised_claim</td><td>5／5／4</td></tr><tr><td>draft_pages</td><td>repeated_error（剎車）</td><td>4</td></tr><tr><td>ai_review</td><td>misleading／wrong_attribution／reversed</td><td>2／2／1</td></tr></table>
+<ul><li>逐頁稿 66 次、AI 審查 38 次（退回 10 次），Playwright 實測 0 頁溢出。</li><li><b>人工驗收第 6 輪抓到 6 個程式和 AI 審查都沒抓到的錯</b>：s03 把 action chunk 說成「把動作切成 token」、s07「flow matching 只需一次前向傳播」、s11 把 OpenVLA 的成績說成所有 VLA 的、s12「訓練時間最少 5 倍」（原文是最多少 5 倍）、s04／s09 表格空格。退回後只重寫那幾頁，再審查、再驗收才通過。</li></ul>
+<h2 id="sec6">6. 反思</h2>
+<h3>哪一個節點最常出錯？</h3>
+<p><b><code>draft_pages</code>（逐頁稿，LLM 寫內容的節點）。</b> 每一版都是它出錯最多，常見的錯法如下：</p>
+<table><tr><th>錯法</th><th>例子</th><th>由誰抓到</th></tr><tr><td>把推論寫成事實</td><td>v1：4 句</td><td>人工逐句比對 → 之後由程式檢查</td></tr><tr><td>輸出格式不對</td><td>v3：bullets 變成字串、引用寫進句子</td><td>程式（v3 之後先驗格式）</td></tr><tr><td>用「比喻」標籤包裝事實，繞過出處檢查</td><td>v3 s09：「離散化會增加延遲」標成 analogy</td><td>程式（v4 新增 disguised_claim）</td></tr><tr><td>數字或主詞套錯</td><td>v3 s04：把 FAST 的 53 個 token 寫在「連續輸出」那一列</td><td>v3 審查沒抓到 → v4 換更強的審查模型、加 table_mismatch</td></tr><tr><td>字數超過、算不準中文字數</td><td>v3 s10：63 字改了 5 次</td><td>程式；錯誤訊息改成寫出「要刪幾個字」</td></tr></table>
+<p>v5 裡被程式擋下最多的是「推論寫成事實」（19 次），被 AI 審查退回最多的是「證據不支持」與「表格欄位錯置」（24 次）；而<b>意思錯了、但數字和出處都對</b>的錯誤（例如把 action chunk 解釋成 token 化），程式和 AI 審查都漏掉，最後是人工驗收抓到的。</p>
+<p>但是<b>錯誤次數最多的其實是檢查器自己</b>：v3 的 93 次錯誤裡，有 71 次是數字檢查器誤報。原因是 Groq 寫「RT‑1」用了不換行連字號（U+2011），程式沒認出模型名稱，就把 1、2 當成要查出處的數字。估算型的溢出檢查也誤報 s08、s09（瀏覽器實測 0px）。另外，v4 的 AI 審查把小測驗「故意設計的錯誤選項」當成錯誤要求改正，結果 4 個選項全部變成正確。<b>檢查器和審查者本身也會錯，也需要被檢查。</b></p>
+<h3>發現問題後，把檢查往前移到哪一步？</h3>
+<table><tr><th>問題</th><th>原本在哪裡抓</th><th>往前移到哪裡</th></tr><tr><td>推論被寫成事實、數字張冠李戴</td><td>投影片寫完後，以「頁」為單位檢查</td><td><b>query_wiki</b>：檢索時就拆成帶 id 的 claim，標好 fact／inference 與數字（v2）</td></tr><tr><td>術語先用後教</td><td>整份投影片寫完後</td><td><b>check_outline</b>：大綱階段就檢查（v2）</td></tr><tr><td>格式錯誤</td><td>沒有檢查（直接當掉）</td><td><b>check_slide 的第一步</b>：先驗格式、再驗內容（v3 修正）</td></tr><tr><td>證據卡本身錯（只有連結的「相關」句被當成證據，v4 s11 因此寫出錯誤結論）</td><td>簡報產出後由人發現</td><td><b>lint_wiki</b>：新增 nav_as_claim 規則，在 Wiki 層就擋下（v4 → v5）</td></tr><tr><td>頁面太薄</td><td>人看成品才發現</td><td><b>check_outline</b>：每頁至少 3 條 claim（v4）</td></tr></table>
+<table><tr><th>稿子仍是舊版大綱寫的（v5 退回大綱後漏重寫 4 頁）</th><th>人工驗收</th><th><b>check_deck</b>：新增 stale_slide，稿子和現行大綱不一致就退回</th></tr><tr><td>小測驗沒有分配證據、標題錯字</td><td>寫稿時才失敗、人工驗收</td><td><b>check_outline</b>：quiz 至少 2 條 claim、錯字檢查</td></tr></table>
+<p>這就是講義說的「錯誤要在離源頭最近的地方被抓到」：越晚發現，退回的範圍越大、浪費的 LLM 呼叫越多。</p>
+<h3>有沒有因此修改 workflow／graph？為什麼？</h3>
+<p>有，一共改了 4 次，每次都是被實際執行結果逼出來的：</p>
+<ol><li><b>v1 → v2</b>：新增 check_outline；引用從「頁」改成「claim」。原因：頁層級的引用看起來有出處，實際上沒辦法驗證。</li><li><b>v2 → v3</b>（對照講義）：證據卡、人工確認大綱、逐頁稿只看自己的卡片、AI 審查（另一個模型、新對話）、渲染檢查、錯在哪一頁就退回哪一頁。原因：v2 修一個錯要整份重送，而且沒有「說法有沒有講反」這種程式判斷不了的檢查。</li><li><b>v3 → v4</b>：Unicode 正規化、假比喻檢查、剎車（同樣的錯誤連續兩次就停；v3 的 s09 同一個錯重寫了 12 次）、估算型檢查只警告不退件、換更強的審查模型、依 Groq 回傳的額度 header 精準節流。結果呼叫次數從 106 降到 68，時間從 36 分鐘降到 10 分鐘。</li><li><b>v4 → v5</b>：審查規則補上小測驗的邏輯、Wiki 修正證據卡、新增<b>人工驗收</b>關卡（可以只退回指定頁，或用「outline:」退回大綱）。原因：審查者自己也會把東西改壞，最後仍需要人在指定關卡把關。</li><li><b>v5 執行中修掉的 graph 本身的 bug</b>（每一個都是實際跑出來的）：網路逾時沒有重試；退回大綱後「哪些頁要重寫」只和上一版比，漏掉 4 頁；人工關卡空白 Enter 被當成通過、長中文意見被終端機截斷（改成支援 <code>@檔案</code>）；人工退回次數的上限兩度擋下真正的退回，還把結果誤判成 done（改成人工退回不設上限、超過自動上限時列為未解決）。<b>剎車和人工關卡本身的邏輯也需要測試。</b></li></ol>
+<h3>其他心得</h3>
+<ul><li><b>人工關卡不是裝飾</b>：最後一輪人工驗收抓到 6 個「數字和出處都對、意思卻錯」的錯誤，這是程式檢查與 AI 審查的盲區。但人也會漏看（v5 第 3 輪就把舊版的 s07／s10 放行了），所以能用程式檢查的一致性（例如稿子 vs 大綱）都要交給程式。</li><li><b>「做完了」不能由 AI 說了算</b>：v1 的檢查全過，但內容仍然有錯。可以執行的檢查必須夠細，檢查器本身也要用真實資料測過。</li><li><b>錯誤訊息要能照著做</b>：v3 只說「沒有引用」，模型同樣的錯犯了 3 次；改成「claim id 只能放在 cite 陣列，text 裡不要寫引用」之後，一次就修好。</li><li><b>loop 一定要有剎車</b>：沒有上限的 loop 會把額度燒光。這次光是 v3 就用了 13 萬 tokens，還真的撞到 Groq 的每日上限（20 萬 tokens），v5 隔天才用 <code>--resume</code> 從 checkpoint 接續。</li><li><b>限制</b>：數字檢查只比對字串，抓不到「數字對但主詞錯」；這類錯要靠 AI 審查，而審查也可能漏掉。檢索用關鍵字打分，Wiki 再大一點就需要 embedding 檢索。</li></ul></main></body></html>
